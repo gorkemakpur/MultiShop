@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using MultiShop.Catalog.Dtos.CategoryDtos;
 using MultiShop.Catalog.Entities;
@@ -35,15 +36,24 @@ namespace MultiShop.Catalog.Services.CategoryServices
 
         public async Task DeleteCategoryAsync(string id)
         {
-            await _categoryCollection.DeleteOneAsync(id);
+            ObjectId objectId;
+            if (ObjectId.TryParse(id, out objectId))
+            {
+                await _categoryCollection.DeleteOneAsync(Builders<Category>.Filter.Eq("_id", objectId));
+            }
+            else
+            {
+                // Geçersiz id formatıyla ilgili bir işlem yapabilirsiniz.
+            }
         }
 
         public async Task<List<ResultCategoryDto>> GetAllCategoryAsync()
         {
-            var values = await _categoryCollection.Find(x=>true).ToListAsync();
-            var items = _mapper.Map<List<ResultCategoryDto>>(values);
-            return items;
+            var values = await _categoryCollection.Find(x => true).ToListAsync();
+            var valueMappedList = _mapper.Map<List<ResultCategoryDto>>(values);
+            return valueMappedList;
         }
+
 
         public async Task<GetByIdCategoryDto> GetByIdCategoryAsync(string id)
         {

@@ -1,5 +1,6 @@
 
 using Microsoft.Extensions.Options;
+using MongoDB.Driver;
 using MultiShop.Catalog.Mapping;
 using MultiShop.Catalog.Services.CategoryServices;
 using MultiShop.Catalog.Services.ProductDetailServices;
@@ -23,8 +24,19 @@ namespace MultiShop.Catalog
 
             //builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
             builder.Services.AddAutoMapper(typeof(GeneralMapping));
+            // CORS politikasý ekleme
+            builder.Services.AddCors(options=>
+            {
+                options.AddPolicy("AllowAll", builder =>
+                {
+                    builder.AllowAnyOrigin()
+                           .AllowAnyMethod()
+                           .AllowAnyHeader();
+                });
+            });
 
             builder.Services.Configure<DatabaseSettings>(builder.Configuration.GetSection("DatabaseSettings"));
+
             builder.Services.AddScoped<IDatabaseSettings>(sp =>
             {
                 return sp.GetRequiredService<IOptions<DatabaseSettings>>().Value;
@@ -44,9 +56,9 @@ namespace MultiShop.Catalog
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+            app.UseCors("AllowAll");
             app.UseHttpsRedirection();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
 

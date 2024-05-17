@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MongoDB.Driver.Core.Misc;
 using MultiShop.Catalog.Dtos.CategoryDtos;
 using MultiShop.Catalog.Dtos.ProductDetailDtos;
 using MultiShop.Catalog.Dtos.ProductDtos;
@@ -12,7 +13,6 @@ namespace MultiShop.Catalog.Mapping
         public GeneralMapping()
         {
             CreateMap<Category, ResultCategoryDto>().ReverseMap();
-            CreateMap<List<Category>, List<ResultCategoryDto>>().ReverseMap();
             CreateMap<Category, CreateCategoryDto>().ReverseMap();
             CreateMap<Category, UpdateCategoryDto>().ReverseMap();
             CreateMap<Category, GetByIdCategoryDto>().ReverseMap();
@@ -31,6 +31,8 @@ namespace MultiShop.Catalog.Mapping
             CreateMap<ProductImage, CreateProductImageDto>().ReverseMap();
             CreateMap<ProductImage, UpdateProductImageDto>().ReverseMap();
             CreateMap<ProductImage, GetByIdProductImageDto>().ReverseMap();
+
+            
 
         }
     }

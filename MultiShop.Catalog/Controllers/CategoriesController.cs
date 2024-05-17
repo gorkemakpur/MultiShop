@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
 using MultiShop.Catalog.Dtos.CategoryDtos;
 using MultiShop.Catalog.Services.CategoryServices;
 
@@ -19,13 +20,14 @@ namespace MultiShop.Catalog.Controllers
         [HttpGet]
         public async Task<IActionResult> CategoryList()
         {
-            var values = _categoryService.GetAllCategoryAsync();
+            var values = await _categoryService.GetAllCategoryAsync();
             return Ok(values);
         }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetByIdCategory(string id)
         {
-            var values = _categoryService.GetByIdCategoryAsync(id);
+            var values = await _categoryService.GetByIdCategoryAsync(id);
             return Ok(values);
         }
 
@@ -35,12 +37,14 @@ namespace MultiShop.Catalog.Controllers
             await _categoryService.CreateCategoryAsync(createCategoryDto);
             return Ok("Kategori Başarıyla Eklendi");
         }
+
         [HttpDelete]
         public async Task<IActionResult> DeleteCategory(string id)
         {
             await _categoryService.DeleteCategoryAsync(id);
             return Ok("Kategori Başarıyla Silindi");
         }
+
         [HttpPut]
         public async Task<IActionResult> UpdateCategory(UpdateCategoryDto updateCategoryDto)
         {
