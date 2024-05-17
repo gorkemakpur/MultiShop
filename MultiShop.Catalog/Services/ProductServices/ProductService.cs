@@ -3,7 +3,6 @@ using MongoDB.Driver;
 using MultiShop.Catalog.Dtos.ProductDtos;
 using MultiShop.Catalog.Entities;
 using MultiShop.Catalog.Settings;
-using static MongoDB.Driver.WriteConcern;
 
 namespace MultiShop.Catalog.Services.ProductServices
 {
@@ -23,8 +22,16 @@ namespace MultiShop.Catalog.Services.ProductServices
 
         public async Task CreateProductAsync(CreateProductDto createProductDto)
         {
-            var values = _mapper.Map<Product>(createProductDto);
-            await _productCollection.InsertOneAsync(values);
+            try
+            {
+                var values = _mapper.Map<Product>(createProductDto);
+                await _productCollection.InsertOneAsync(values);
+            }
+            catch (Exception ex)
+            {
+                // Hata mesajını logla
+                throw new Exception(ex.Message, ex);
+            }
         }
 
         public async Task DeleteProductAsync(string id)
