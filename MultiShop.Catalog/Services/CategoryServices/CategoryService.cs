@@ -22,29 +22,13 @@ namespace MultiShop.Catalog.Services.CategoryServices
 
         public async Task CreateCategoryAsync(CreateCategoryDto createCategoryDto)
         {
-            try
-            {
-                var value = _mapper.Map<Category>(createCategoryDto);
-                await _categoryCollection.InsertOneAsync(value);
-            }
-            catch (Exception ex)
-            {
-                // Hata mesajını logla
-               throw new Exception(ex.Message, ex); 
-            }
+            var value = _mapper.Map<Category>(createCategoryDto);
+            await _categoryCollection.InsertOneAsync(value);
         }
 
         public async Task DeleteCategoryAsync(string id)
         {
-            ObjectId objectId;
-            if (ObjectId.TryParse(id, out objectId))
-            {
-                await _categoryCollection.DeleteOneAsync(Builders<Category>.Filter.Eq("_id", objectId));
-            }
-            else
-            {
-                // Geçersiz id formatıyla ilgili bir işlem yapabilirsiniz.
-            }
+            await _categoryCollection.DeleteOneAsync(x => x.CategoryID == id);
         }
 
         public async Task<List<ResultCategoryDto>> GetAllCategoryAsync()
@@ -57,7 +41,7 @@ namespace MultiShop.Catalog.Services.CategoryServices
 
         public async Task<GetByIdCategoryDto> GetByIdCategoryAsync(string id)
         {
-            var value = await _categoryCollection.Find(x=>x.CategoryID == id).FirstOrDefaultAsync();
+            var value = await _categoryCollection.Find(x => x.CategoryID == id).FirstOrDefaultAsync();
             return _mapper.Map<GetByIdCategoryDto>(value);
         }
 
