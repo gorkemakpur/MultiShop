@@ -1,4 +1,5 @@
 
+using Multishop.Order.Persistence.Context;
 using Multishop.Order.Persistence.Repositories;
 using MultiShop.Order.Application.Features.CQRS.Handlers.AddressHandlers;
 using MultiShop.Order.Application.Features.CQRS.Handlers.OrderDetailHandlers;
@@ -12,7 +13,7 @@ namespace MultiShop.Order.WebApi
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            #region
+            #region 
             // Add services to the container.
             builder.Services.AddScoped<GetAddressQueryHandler>();
             builder.Services.AddScoped<CreateAddressCommandHandler>();
@@ -25,6 +26,9 @@ namespace MultiShop.Order.WebApi
             builder.Services.AddScoped<GetOrderDetailByIdQueryHandler>();
             builder.Services.AddScoped<RemoveOrderDetailCommandHandler>();
             builder.Services.AddScoped<UpdateOrderDetailCommandHandler>();
+
+
+            builder.Services.AddDbContext<OrderContext>();
             #endregion
 
             builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));

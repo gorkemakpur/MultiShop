@@ -20,13 +20,13 @@ namespace MultiShop.Order.WebApi.Controllers
         [HttpGet]
         public async Task<IActionResult> OrderList()
         {
-            var values = _mediator.Send(new GetOrderingQuery());
+            var values = await _mediator.Send(new GetOrderingQuery());
             return Ok(values);
         }
         [HttpGet("{id}")]
         public async Task<IActionResult> OrderList(int id)
         {
-            var values = _mediator.Send(new GetOrderingByIdQuery(id));
+            var values = await _mediator.Send(new GetOrderingByIdQuery(id));
             return Ok(values);
         }
         [HttpPost]
