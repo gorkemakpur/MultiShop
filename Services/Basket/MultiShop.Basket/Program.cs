@@ -27,7 +27,8 @@ namespace MultiShop.Basket
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddScoped<ILoginService,LoginService>();
             builder.Services.AddScoped<IBasketService,BasketService>();
-            builder.Services.Configure<RedisSettings>(builder.Configuration.GetSection("RedisSettings"));
+            builder.Services.Configure<RedisSettings>(
+                builder.Configuration.GetSection("RedisSettings"));
             builder.Services.AddSingleton<RedisService>(sp =>
             {
                 var redisSettings = sp.GetRequiredService<IOptions<RedisSettings>>().Value;

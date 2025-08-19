@@ -16,7 +16,7 @@ namespace Multishop.Order.Persistence.Context
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=localhost,1440; initial Catalog = MultiShopOrderDb; User=sa; Password=Aa.123456789+; TrustServerCertificate=True;");
+            optionsBuilder.UseSqlServer("Server=localhost,1440; initial Catalog = MultiShopOrderDb; User=sa; Password=123456aA*; TrustServerCertificate=True;");
         }
     }
 }
